@@ -1,0 +1,51 @@
+{
+  "name": "ludum_54_omsk",
+  "private": true,
+  "version": "0.0.0",
+  "license": "MIT",
+  "type": "module",
+  "packageManager": "pnpm@8.7.6",
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "lint": "eslint \"src/**/*.ts\" && manypkg check",
+    "lint:fix": "eslint \"src/**/*.ts\" --fix && manypkg fix",
+    "type-check": "tsc --noEmit",
+    "format": "prettier --check \"**/*.{mjs,ts,md,json}\""
+  },
+  "browserslist": [
+    "Chrome > 74",
+    "Firefox > 70",
+    "Safari > 14.1",
+    "ios > 14.5",
+    "ChromeAndroid > 74",
+    "FirefoxAndroid > 70",
+    "Samsung > 11"
+  ],
+  "dependencies": {
+    "@ianvs/prettier-plugin-sort-imports": "^4.1.0",
+    "@manypkg/cli": "^0.21.0",
+    "@pixi/app": "^7.3.1",
+    "@pixi/assets": "^7.3.1",
+    "@pixi/core": "^7.3.1",
+    "@pixi/display": "^7.3.1",
+    "@pixi/events": "^7.3.1",
+    "@pixi/graphics": "^7.3.1",
+    "@pixi/sound": "^5.2.1",
+    "@pixi/sprite": "^7.3.1",
+    "@pixi/sprite-animated": "^7.3.1",
+    "@pixi/text": "^7.3.1",
+    "@typescript-eslint/eslint-plugin": "^6.7.3",
+    "@typescript-eslint/parser": "^6.7.3",
+    "eslint": "^8.50.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-import": "^2.28.1",
+    "prettier": "^3.0.3",
+    "typescript": "^5.2.2",
+    "vite": "^4.4.9"
+  }
+}
