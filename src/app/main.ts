@@ -1,33 +1,38 @@
-import { Application } from "@pixi/app";
-import { BaseTexture, SCALE_MODES } from "@pixi/core";
-import { Container } from "@pixi/display";
+import {
+  BoxGeometry,
+  Mesh,
+  MeshBasicMaterial,
+  PerspectiveCamera,
+  Scene,
+  WebGLRenderer,
+} from "three";
 
-function main() {
-  const app = new Application<HTMLCanvasElement>({
-    background: "#000000",
-    width: 1161,
-    height: 652,
-    antialias: true,
-  });
-  BaseTexture.defaultOptions.scaleMode = SCALE_MODES.NEAREST; // pixel perfect
-  document.body.appendChild(app.view);
+const scene = new Scene();
+const camera = new PerspectiveCamera(
+  75,
+  window.innerWidth / window.innerHeight,
+  0.1,
+  1000
+);
 
-  const container = new Container();
-  container.x = 0;
-  container.y = 0;
-  app.stage.addChild(container);
+const renderer = new WebGLRenderer();
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
 
-  // app.ticker.add(() => {
-  //   const dt = app.ticker.deltaMS / 1000; // in seconds
-  //   inputs.update(dt);
-  //   sceneManager.update(dt);
-  // });
+const geometry = new BoxGeometry(1, 1, 1);
+const material = new MeshBasicMaterial({ color: 0x00ff00 });
+const cube = new Mesh(geometry, material);
+scene.add(cube);
+
+camera.position.z = 5;
+
+function animate() {
+  requestAnimationFrame(animate);
+
+  cube.rotation.x += 0.01;
+  cube.rotation.y += 0.01;
+
+  renderer.render(scene, camera);
 }
 
-window.onload = function () {
-  main();
-  window.focus();
-};
-window.onclick = function () {
-  window.focus();
-};
+animate();
