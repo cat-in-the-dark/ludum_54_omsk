@@ -24,6 +24,9 @@ const config = {
     "pnpm-lock.yaml",
   ],
   reportUnusedDisableDirectives: true,
+  globals: {
+    "AFRAME": "readonly",
+  }
 };
 
 module.exports = config;
