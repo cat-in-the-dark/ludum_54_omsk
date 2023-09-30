@@ -1,9 +1,6 @@
 /** @type {import("eslint").Linter.Config} */
 const config = {
-  extends: [
-    "eslint:recommended",
-    "prettier",
-  ],
+  extends: ["eslint:recommended", "prettier"],
   env: {
     es2022: true,
     node: true,
@@ -25,8 +22,10 @@ const config = {
   ],
   reportUnusedDisableDirectives: true,
   globals: {
-    "AFRAME": "readonly",
-  }
+    AFRAME: "readonly",
+    THREE: "readonly",
+    MutationObserver: "readonly",
+  },
 };
 
 module.exports = config;
