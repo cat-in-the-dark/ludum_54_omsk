@@ -1,82 +1,57 @@
-// Configuration for the MutationObserver used to refresh the whitelist.
-// Listens for addition/removal of elements and attributes within the scene.
-const OBSERVER_CONFIG = {
-  childList: true,
-  attributes: true,
-  subtree: true,
-};
+const handPos = new THREE.Vector3();
+const colPos = new THREE.Vector3();
 
-const tempVector3 = new THREE.Vector3();
-AFRAME.registerComponent("hands", {
-  schema: {
-    enabled: { default: true },
-    interval: { default: 80 },
-  },
+AFRAME.registerComponent("hand", {
   init() {
-    this.prevCheckTime = 0;
-
-    this.setDirty = this.setDirty.bind(this);
-    this.observer = new MutationObserver(this.setDirty);
-    this.dirty = true;
-
     this.grabStart = this.grabStart.bind(this);
     this.grabEnd = this.grabEnd.bind(this);
     this.isGrabbing = false;
+    this.collider = undefined;
+    this.handling = false;
 
     this.el.addEventListener("gripdown", this.grabStart);
     this.el.addEventListener("gripup", this.grabEnd);
 
     console.log("REGISTER thumbstick-logging");
+
+    this.el.sceneEl.systems.grabbing.registerHand(this.el);
+
+    // когда хватаем объект, запоминаем расстояние между рукой и объектом,
+    // чтобы сохранить относительное расстояние. Так не будет прыжка объекта в руку.
+    this.posDiff = new THREE.Vector3(0, 0, 0);
   },
+
   grabStart(e) {
     if (this.isGrabbing === false) {
       this.isGrabbing = true;
-      this.el.object3D.getWorldPosition(tempVector3);
-      console.log("GRAB", this.el, tempVector3);
+      if (this.collider) {
+        this.el.object3D.getWorldPosition(handPos);
+        this.collider.object3D.getWorldPosition(colPos);
+
+        this.posDiff.subVectors(colPos, handPos);
+        this.handling = this.collider;
+      }
     }
   },
   grabEnd(e) {
     if (this.isGrabbing === true) {
       this.isGrabbing = false;
-      this.el.object3D.getWorldPosition(tempVector3);
-      console.log("RELEASE", tempVector3);
+      this.handling = undefined;
     }
-  },
-
-  setDirty() {
-    this.dirty = true;
-  },
-
-  play() {
-    this.observer.observe(this.el.sceneEl, OBSERVER_CONFIG);
-    this.el.sceneEl.addEventListener("object3dset", this.setDirty);
-    this.el.sceneEl.addEventListener("object3dremove", this.setDirty);
-  },
-
-  remove() {
-    this.observer.disconnect();
-    this.el.sceneEl.removeEventListener("object3dset", this.setDirty);
-    this.el.sceneEl.removeEventListener("object3dremove", this.setDirty);
-  },
-
-  refreshObjects() {
-    this.objectEls = this.el.sceneEl.querySelectorAll(".grab-box");
-    this.dirty = false;
   },
 
   tick(time) {
-    const prevCheckTime = this.prevCheckTime;
-    // Only check for intersection if interval time has passed.
-    if (time - prevCheckTime < this.data.interval) {
-      return;
+    if (this.handling) {
+      console.log("IN HAND!!!");
+      const bpos = this.handling.object3D.position;
+      const hpos = this.el.object3D.position;
+      bpos.x = hpos.x + this.posDiff.x;
+      bpos.y = hpos.y + this.posDiff.y;
+      bpos.z = hpos.z + this.posDiff.z;
     }
-    // Update check time.
-    this.prevCheckTime = time;
+  },
 
-    if (this.dirty) {
-      this.refreshObjects();
-    }
-
-    // console.log("BUM");
+  remove() {
+    this.el.sceneEl.systems.grabbing.unregisterHand(this.el);
   },
 });
