@@ -11,7 +11,7 @@ AFRAME.registerComponent("grabable", {
 
   schema: {
     grabbing: { type: "boolean", default: "false" },
-    speed: { type: "number", default: 0.6 },
+    speed: { type: "number", default: 1.2 },
   },
 
   init() {

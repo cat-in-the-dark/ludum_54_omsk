@@ -34,6 +34,7 @@ const config = {
     CELLS_Y: "readonly",
     CELLS_X: "readonly",
     GROUND_Y: "readonly",
+    SPAWN_TIMER: "readonly",
   },
 };
 

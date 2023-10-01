@@ -13,12 +13,12 @@
     <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-physics-system@v4.2.2/dist/aframe-physics-system.min.js"></script>
     <script src="src/consts.js"></script>
+    <script src="src/force-mover.js"></script>
     <script src="src/gameplay.js"></script>
     <script src="src/grab-system.js"></script>
     <script src="src/hands.js"></script>
     <script src="src/grabable.js"></script>
     <script src="src/cubes/falling-cubes.js"></script>
-    <script src="src/cubes/cube.js"></script>
   </head>
   <body>
     <a-scene>
@@ -38,6 +38,7 @@
         class="grab-box"
         position="0 1 -0.5"
         grabable
+        force-mover
       ></a-entity>
 
       <a-entity
@@ -45,6 +46,7 @@
         class="grab-box"
         position="0.5 1.25 -0.5"
         grabable
+        force-mover
       ></a-entity>
 
       <a-plane

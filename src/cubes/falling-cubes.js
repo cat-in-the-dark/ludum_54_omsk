@@ -26,7 +26,7 @@ AFRAME.registerSystem("falling-cubes", {
     this.gameplay = this.el.sceneEl.systems.gameplay;
 
     this.spawnCube = this.spawnCube.bind(this);
-    setInterval(this.spawnCube, 2000);
+    setInterval(this.spawnCube, SPAWN_TIMER);
   },
 
   createCubeEntity(p) {
@@ -38,6 +38,7 @@ AFRAME.registerSystem("falling-cubes", {
       "primitive: box; width: 0.25; height: 0.25; depth: 0.25"
     );
     cube.setAttribute("grabable", "");
+    cube.setAttribute("force-mover", "");
     return cube;
   },
 

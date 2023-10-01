@@ -15,7 +15,6 @@ AFRAME.registerSystem("gameplay", {
     // TODO: why O(n)? maybe Map?
     const index = this.cubes.indexOf(cube);
     this.cubes.splice(index, 1);
-    console.warn("AAAAAA");
   },
 
   tick(time, dt) {
@@ -58,5 +57,21 @@ AFRAME.registerSystem("gameplay", {
     const cellX = Math.round(pos.x / SNAP.x);
     console.log("GROUNDED", cellX);
     this.columns[cellX].push(el);
+
+    this.checkLineDestroy();
+  },
+
+  checkLineDestroy() {
+    const hasLine = this.columns.every((el) => el && el.length > 0);
+    if (!hasLine) return;
+    const toDelete = this.columns.map((column) => column[0]);
+    this.columns = this.columns.map((column) => column.slice(1));
+    toDelete.forEach((el) => el.remove());
+
+    this.columns.forEach((column) => {
+      column.forEach((el) => {
+        el.components["force-mover"].scheduleMoveDown();
+      });
+    });
   },
 });
