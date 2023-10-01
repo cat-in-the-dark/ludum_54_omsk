@@ -4,6 +4,7 @@ const config = {
   env: {
     es2022: true,
     node: true,
+    browser: true,
   },
   parserOptions: {
     project: true,
@@ -25,6 +26,14 @@ const config = {
     AFRAME: "readonly",
     THREE: "readonly",
     MutationObserver: "readonly",
+    CELL_SIZE: "readonly",
+    Z_CONSTRAINT: "readonly",
+    OFFSET: "readonly",
+    SNAP: "readonly",
+    getPosInGrid: "readonly",
+    CELLS_Y: "readonly",
+    CELLS_X: "readonly",
+    GROUND_Y: "readonly",
   },
 };
 

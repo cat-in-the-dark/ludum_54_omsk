@@ -12,6 +12,8 @@
     <title>CAT_IN_THE_DARK | GAME</title>
     <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-physics-system@v4.2.2/dist/aframe-physics-system.min.js"></script>
+    <script src="src/consts.js"></script>
+    <script src="src/gameplay.js"></script>
     <script src="src/grab-system.js"></script>
     <script src="src/hands.js"></script>
     <script src="src/grabable.js"></script>
@@ -46,7 +48,7 @@
       ></a-entity>
 
       <a-plane
-        position="0 0 0"
+        position="0 -0.125 0"
         rotation="-90 0 0"
         width="100"
         height="100"
@@ -54,11 +56,10 @@
       ></a-plane>
       <a-sky color="#ECECEC"></a-sky>
       <a-camera
-        position="0 1.6 0"
+        position="1 1.6 0"
         id="camera"
         wasd-controls-enabled="false"
       ></a-camera>
-      <a-entity falling-cubes></a-entity>
     </a-scene>
   </body>
 </html>

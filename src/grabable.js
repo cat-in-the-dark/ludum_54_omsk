@@ -1,7 +1,3 @@
-const Z_CONSTRAINT = -0.5;
-const OFFSET = new THREE.Vector3(0, 0, 0);
-const SNAP = new THREE.Vector3(0.25, 0.25, 0.25);
-
 function getPosInGrid(pos) {
   const newPos = AFRAME.utils.clone(pos);
   newPos.x = Math.round(pos.x / SNAP.x) * SNAP.x + OFFSET.x;
@@ -15,17 +11,31 @@ AFRAME.registerComponent("grabable", {
 
   schema: {
     grabbing: { type: "boolean", default: "false" },
+    speed: { type: "number", default: 0.6 },
   },
 
   init() {
+    this.gameplay = this.el.sceneEl.systems.gameplay;
+    this.isOnTop = false;
+    this.grounded = false;
     this.el.sceneEl.systems.grabbing.registerBox(this.el);
+    this.el.sceneEl.systems.gameplay.registerCube(this.el);
   },
   remove() {
     this.el.sceneEl.systems.grabbing.unregisterBox(this.el);
+    this.el.sceneEl.systems.gameplay.unregisterCube(this.el);
   },
 
   grab() {
     this.el.setAttribute("grabbing", "true");
+  },
+
+  getCell() {
+    const pos = this.el.getAttribute("position");
+    return {
+      x: Math.round(pos.x / SNAP.x),
+      y: Math.round(pos.y / SNAP.y),
+    };
   },
 
   release() {
@@ -37,5 +47,15 @@ AFRAME.registerComponent("grabable", {
     const pos = this.el.getAttribute("position");
     const newPos = getPosInGrid(pos);
     this.el.setAttribute("position", newPos);
+  },
+
+  isOnTop() {
+    const pos = this.el.getAttribute("position");
+    const cellX = Math.round(pos.x / SNAP.x);
+    const column = this.gameplay.columns[cellX];
+    if (!column) {
+      return false;
+    }
+    return column[column.length - 1] === this;
   },
 });
