@@ -10,5 +10,5 @@ const CELLS_GAMEOVER_Y = 6;
 
 const GROUND_Y = 0;
 
-const SPAWN_TIMER = 1000; //2000;
-const GRAVITY_SPEED = 1;
+const SPAWN_TIMER = 600; //2000;
+const GRAVITY_SPEED = 1.2;
