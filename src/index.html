@@ -2,10 +2,11 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/png" sizes="192x192"  href="/icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/icon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CAT_IN_THE_DARK | GAME</title>
     <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+    <script src="./cubes/falling-cubes.js"></script>
   </head>
   <body>
     <a-scene>
@@ -25,6 +26,7 @@
         color="#7BC8A4"
       ></a-plane>
       <a-sky color="#ECECEC"></a-sky>
+      <a-entity falling-cubes></a-entity>
     </a-scene>
   </body>
 </html>
