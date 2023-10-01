@@ -9,4 +9,5 @@ const CELLS_Y = 12;
 
 const GROUND_Y = 0;
 
-const SPAWN_TIMER = 500; //2000;
+const SPAWN_TIMER = 2000; //2000;
+const GRAVITY_SPEED = 1;

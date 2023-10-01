@@ -35,6 +35,7 @@ const config = {
     CELLS_X: "readonly",
     GROUND_Y: "readonly",
     SPAWN_TIMER: "readonly",
+    GRAVITY_SPEED: "readonly",
   },
 };
 

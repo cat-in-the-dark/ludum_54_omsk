@@ -41,7 +41,7 @@ AFRAME.registerSystem("gameplay", {
 
       const groundY = this.getGroundFor(pos);
 
-      pos.y -= cube.data.speed * (dt / 1000);
+      pos.y -= GRAVITY_SPEED * (dt / 1000);
       if (pos.y <= groundY) {
         pos.y = groundY;
         this.grounded(el);
@@ -51,14 +51,42 @@ AFRAME.registerSystem("gameplay", {
   },
 
   grounded(el) {
-    const cube = el.components.grabable;
-    cube.grounded = true;
+    const grabable = el.components.grabable;
+    grabable.grounded = true;
     const pos = el.getAttribute("position");
     const cellX = Math.round(pos.x / SNAP.x);
     console.log("GROUNDED", cellX);
-    this.columns[cellX].push(el);
+
+    const column = this.columns[cellX];
+    if (!column) {
+      return;
+    }
+    const prev = column[column.length - 1];
+    if (prev) {
+      prev.components.grabable.isOnTop = false;
+    }
+    column.push(el);
+    grabable.isOnTop = true;
 
     this.checkLineDestroy();
+  },
+
+  grab(el) {
+    const pos = el.getAttribute("position");
+    const cellX = Math.round(pos.x / SNAP.x);
+    const column = this.columns[cellX];
+    if (!column) {
+      return;
+    }
+    column.pop();
+
+    el.components.grabable.isOnTop = false;
+    el.components.grabable.grounded = false;
+
+    const prev = column[column.length - 1];
+    if (prev) {
+      prev.components.grabable.isOnTop = true;
+    }
   },
 
   checkLineDestroy() {

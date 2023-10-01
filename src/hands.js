@@ -22,17 +22,23 @@ AFRAME.registerComponent("hand", {
   },
 
   grabStart(e) {
-    if (this.isGrabbing === false) {
-      this.isGrabbing = true;
-      if (this.collider) {
-        this.el.object3D.getWorldPosition(handPos);
-        this.collider.object3D.getWorldPosition(colPos);
-
-        this.posDiff.subVectors(colPos, handPos);
-        this.handling = this.collider;
-        this.handling.components.grabable.grab();
-      }
+    if (this.isGrabbing === true) {
+      return;
     }
+    this.isGrabbing = true;
+    if (!this.collider) {
+      return;
+    }
+    const grabable = this.collider.components.grabable;
+    if (grabable.isOnTop !== true) {
+      return;
+    }
+    this.el.object3D.getWorldPosition(handPos);
+    this.collider.object3D.getWorldPosition(colPos);
+
+    this.posDiff.subVectors(colPos, handPos);
+    this.handling = this.collider;
+    grabable.grab();
   },
   grabEnd(e) {
     if (this.isGrabbing === true) {

@@ -101,7 +101,6 @@ AFRAME.registerSystem("grabbing", {
       this.boxes.forEach((box) => {
         const c = isColliding(box, hand);
         if (c) {
-          hand.emit("collisionEnter", { collider: box }, false);
           hand.components.hand.collider = box;
           box.setAttribute("color", "#EF2D5E");
         } else {
