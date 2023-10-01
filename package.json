@@ -9,7 +9,7 @@
     "node": ">=16.0.0"
   },
   "scripts": {
-    "dev": "http-server src/ -p 8000 -a 0.0.0.0",
+    "dev": "http-server . -p 8000 -a 0.0.0.0",
     "lint": "eslint \"src/**/*.js\" && manypkg check",
     "lint:fix": "eslint \"src/**/*.js\" --fix && manypkg fix",
     "format": "prettier --check \"**/*.{mjs,ts,md,json}\""
