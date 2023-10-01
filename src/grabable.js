@@ -1,6 +1,6 @@
 const Z_CONSTRAINT = -0.5;
-const OFFSET = THREE.Vector3(0, 0, 0);
-const SNAP = THREE.Vector3(0.25, 0.25, 0.25);
+const OFFSET = new THREE.Vector3(0, 0, 0);
+const SNAP = new THREE.Vector3(0.25, 0.25, 0.25);
 
 function getPosInGrid(pos) {
   const newPos = AFRAME.utils.clone(pos);
