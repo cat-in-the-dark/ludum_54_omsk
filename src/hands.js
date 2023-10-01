@@ -7,7 +7,7 @@ AFRAME.registerComponent("hand", {
     this.grabEnd = this.grabEnd.bind(this);
     this.isGrabbing = false;
     this.collider = undefined;
-    this.handling = false;
+    this.handling = undefined;
 
     this.el.addEventListener("gripdown", this.grabStart);
     this.el.addEventListener("gripup", this.grabEnd);
@@ -30,19 +30,22 @@ AFRAME.registerComponent("hand", {
 
         this.posDiff.subVectors(colPos, handPos);
         this.handling = this.collider;
+        this.handling.components.grabable.grab();
       }
     }
   },
   grabEnd(e) {
     if (this.isGrabbing === true) {
       this.isGrabbing = false;
+      if (this.handling) {
+        this.handling.components.grabable.release();
+      }
       this.handling = undefined;
     }
   },
 
   tick(time) {
     if (this.handling) {
-      console.log("IN HAND!!!");
       const bpos = this.handling.object3D.position;
       const hpos = this.el.object3D.position;
       bpos.x = hpos.x + this.posDiff.x;

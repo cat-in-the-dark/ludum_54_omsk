@@ -11,6 +11,7 @@
     <script src="hands.js"></script>
     <script src="grabable.js"></script>
     <script src="./cubes/falling-cubes.js"></script>
+    <script src="snap.js"></script>
   </head>
   <body>
     <a-scene>
@@ -25,27 +26,20 @@
         hand-controls="hand: right; handModelStyle: lowPoly; color: #ffcccc"
       ></a-entity>
 
-      <a-box
+      <a-entity
+        geometry="primitive: box; height: 0.25; width: 0.25; depth: 0.25"
         class="grab-box"
-        height="0.25"
-        width="0.25"
-        depth="0.25"
         position="0 1 -0.5"
-        rotation="0 0 0"
-        color="#4CC3D9"
         grabable
-      ></a-box>
+      ></a-entity>
 
-      <a-box
+      <a-entity
+        geometry="primitive: box; height: 0.25; width: 0.25; depth: 0.25"
         class="grab-box"
-        height="0.25"
-        width="0.25"
-        depth="0.25"
         position="0.5 1.25 -0.5"
-        rotation="0 0 0"
-        color="#EF2D5E"
         grabable
-      ></a-box>
+      ></a-entity>
+
       <a-plane
         position="0 0 0"
         rotation="-90 0 0"
