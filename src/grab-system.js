@@ -1,11 +1,3 @@
-// Configuration for the MutationObserver used to refresh the whitelist.
-// Listens for addition/removal of elements and attributes within the scene.
-const OBSERVER_CONFIG = {
-  childList: true,
-  attributes: true,
-  subtree: true,
-};
-
 const HAND_SIZE = {
   width: 0.1,
   height: 0.1,
@@ -36,9 +28,6 @@ AFRAME.registerSystem("grabbing", {
 
     this.prevCheckTime = 0;
     this.interval = 80;
-    this.setDirty = this.setDirty.bind(this);
-    this.observer = new MutationObserver(this.setDirty);
-    this.dirty = true;
   },
 
   registerBox(box) {
@@ -61,28 +50,6 @@ AFRAME.registerSystem("grabbing", {
     this.hands.splice(index, 1);
   },
 
-  play() {
-    this.observer.observe(this.el.sceneEl, OBSERVER_CONFIG);
-    this.el.sceneEl.addEventListener("object3dset", this.setDirty);
-    this.el.sceneEl.addEventListener("object3dremove", this.setDirty);
-  },
-
-  pause() {
-    this.observer.disconnect();
-    this.el.sceneEl.removeEventListener("object3dset", this.setDirty);
-    this.el.sceneEl.removeEventListener("object3dremove", this.setDirty);
-  },
-
-  refreshObjects() {
-    this.objectEls = this.el.sceneEl.querySelectorAll(".grab-box");
-    this.dirty = false;
-    console.log("refresh");
-  },
-
-  setDirty() {
-    this.dirty = true;
-  },
-
   tick(time) {
     const prevCheckTime = this.prevCheckTime;
     // Only check for intersection if interval time has passed.
@@ -91,10 +58,6 @@ AFRAME.registerSystem("grabbing", {
     }
     // Update check time.
     this.prevCheckTime = time;
-
-    if (this.dirty) {
-      this.refreshObjects();
-    }
 
     this.hands.forEach((hand) => {
       hand.components.hand.collider = undefined;

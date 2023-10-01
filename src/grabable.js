@@ -21,12 +21,12 @@ AFRAME.registerComponent("grabable", {
 
   schema: {
     grabbing: { type: "boolean", default: "false" },
+    grounded: { type: "boolean", default: "false" },
+    isOnTop: { type: "boolean", default: "false" },
   },
 
   init() {
     this.gameplay = this.el.sceneEl.systems.gameplay;
-    this.grounded = false;
-    this.isOnTop = false;
     this.el.sceneEl.systems.grabbing.registerBox(this.el);
     this.el.sceneEl.systems.gameplay.registerCube(this.el);
   },
@@ -36,7 +36,9 @@ AFRAME.registerComponent("grabable", {
   },
 
   grab() {
-    this.el.setAttribute("grabbing", "true");
+    this.el.setAttribute("grabable", "grounded", "false");
+    this.el.setAttribute("grabable", "isOnTop", "false");
+    this.el.setAttribute("grabable", "grabbing", "true");
     this.gameplay.grab(this.el);
   },
 
@@ -49,8 +51,9 @@ AFRAME.registerComponent("grabable", {
   },
 
   release() {
-    this.el.setAttribute("grabbing", "false");
     this.doSnap();
+    this.el.setAttribute("grabable", "grabbing", "false");
+    console.log("RELEASE");
   },
 
   doSnap() {

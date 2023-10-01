@@ -6,8 +6,9 @@ const SNAP = new THREE.Vector3(CELL_SIZE, CELL_SIZE, CELL_SIZE);
 
 const CELLS_X = 8;
 const CELLS_Y = 12;
+const CELLS_GAMEOVER_Y = 6;
 
 const GROUND_Y = 0;
 
-const SPAWN_TIMER = 2000; //2000;
+const SPAWN_TIMER = 1000; //2000;
 const GRAVITY_SPEED = 1;

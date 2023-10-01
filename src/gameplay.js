@@ -35,27 +35,26 @@ AFRAME.registerSystem("gameplay", {
   },
 
   moveCubeDown(el, dt) {
-    const cube = el.components.grabable;
-    if (!cube.data.grabbing && !cube.grounded) {
-      const pos = AFRAME.utils.clone(cube.el.getAttribute("position"));
+    const grabable = el.components.grabable;
+    if (!grabable.data.grabbing && !grabable.data.grounded) {
+      const pos = AFRAME.utils.clone(el.getAttribute("position"));
 
       const groundY = this.getGroundFor(pos);
 
       pos.y -= GRAVITY_SPEED * (dt / 1000);
       if (pos.y <= groundY) {
         pos.y = groundY;
-        this.grounded(el);
+        this.groundCube(el);
       }
-      cube.el.setAttribute("position", pos);
+      el.setAttribute("position", pos);
     }
   },
 
-  grounded(el) {
+  groundCube(el) {
     const grabable = el.components.grabable;
-    grabable.grounded = true;
+    el.setAttribute("grabable", "grounded", true);
     const pos = el.getAttribute("position");
     const cellX = Math.round(pos.x / SNAP.x);
-    console.log("GROUNDED", cellX);
 
     const column = this.columns[cellX];
     if (!column) {
@@ -63,12 +62,16 @@ AFRAME.registerSystem("gameplay", {
     }
     const prev = column[column.length - 1];
     if (prev) {
-      prev.components.grabable.isOnTop = false;
+      prev.setAttribute("grabable", "isOnTop", false);
     }
     column.push(el);
-    grabable.isOnTop = true;
+    grabable.el.setAttribute("grabable", "isOnTop", true);
 
     this.checkLineDestroy();
+
+    if (column.length > CELLS_GAMEOVER_Y) {
+      window.location.reload();
+    }
   },
 
   grab(el) {
@@ -80,12 +83,9 @@ AFRAME.registerSystem("gameplay", {
     }
     column.pop();
 
-    el.components.grabable.isOnTop = false;
-    el.components.grabable.grounded = false;
-
     const prev = column[column.length - 1];
     if (prev) {
-      prev.components.grabable.isOnTop = true;
+      prev.setAttribute("grabable", "isOnTop", true);
     }
   },
 

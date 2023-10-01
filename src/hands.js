@@ -30,7 +30,7 @@ AFRAME.registerComponent("hand", {
       return;
     }
     const grabable = this.collider.components.grabable;
-    if (grabable.isOnTop !== true) {
+    if (grabable.data.grounded === true && grabable.data.isOnTop !== true) {
       return;
     }
     this.el.object3D.getWorldPosition(handPos);
